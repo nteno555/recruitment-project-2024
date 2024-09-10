@@ -14,7 +14,7 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
     public OrbitalSimulator() {
         planets = new ArrayList<>();
         planets.add(new Planet(300, 300, 30, 5e24, Color.BLUE));  // Starter planet (Blue)
-        // Add more planets here
+        // TODO: Add more planets here
 
         // Setup the radius slider
         radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 30); // Min 10, Max 100, Initial 30
