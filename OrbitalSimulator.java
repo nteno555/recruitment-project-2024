@@ -14,7 +14,7 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
     public OrbitalSimulator() {
         planets = new ArrayList<>();
         planets.add(new Planet(300, 300, 30, 5e24, Color.BLUE));  // Starter planet (Blue)
-        // Add more planets here
+        // TODO: Add more planets here
 
         // Setup the radius slider
         radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 30); // Min 10, Max 100, Initial 30
@@ -72,6 +72,7 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
 
         Planet p1 = planets.get(0);  // Central planet (Blue)
         Planet p2 = planets.get(1);  // This is the planet you will add
+        // TODO: Add more planets here
 
         double G = 6.67430e-11; // Gravitational constant
 
