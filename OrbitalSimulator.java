@@ -13,11 +13,14 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
 
     public OrbitalSimulator() {
         planets = new ArrayList<>();
-        planets.add(new Planet(300, 300, 30, 5e24, Color.BLUE));  // Starter planet (Blue)
-        // Add more planets here
+
+        planets.add(new Planet(400, 400, 50, 5e9, Color.BLUE));
+        planets.add(new Planet(600, 400, 10, 1e8, Color.RED));
+
+        planets.get(1).setVelocity(0, 0.9);
 
         // Setup the radius slider
-        radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 30); // Min 10, Max 100, Initial 30
+        radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 50); // Min 10, Max 100, Initial 50
         radiusSlider.addChangeListener(e -> {
             int newRadius = radiusSlider.getValue();
             planets.get(0).setRadius(newRadius);  // Adjust the radius of the blue planet
@@ -70,30 +73,31 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
     private void applyGravity() {
         if (planets.size() < 2) return;
 
-        Planet p1 = planets.get(0);  // Central planet (Blue)
-        Planet p2 = planets.get(1);  // This is the planet you will add
+        Planet p1 = planets.get(0);
+        Planet p2 = planets.get(1);
 
-        double G = 6.67430e-11; // Gravitational constant
+        double G = 6.67430e-5; // Gravitational constant
 
-        // Calculate distance
         double dx = p2.getX() - p1.getX();
         double dy = p2.getY() - p1.getY();
         double distance = Math.sqrt(dx * dx + dy * dy);
 
-        // Calculate force
+        double minDistance = p1.getRadius() + p2.getRadius();
+        if (distance < minDistance) {
+            distance = minDistance;
+        }
+
         double force = G * (p1.getMass() * p2.getMass()) / (distance * distance);
 
-        // Calculate acceleration
         double ax = force / p2.getMass() * (dx / distance);
         double ay = force / p2.getMass() * (dy / distance);
 
-        // Update velocity and position
         p2.updateVelocity(ax, ay);
         p2.updatePosition();
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Planet Sim");
+        JFrame frame = new JFrame("Orbital Simulator");
         OrbitalSimulator simulator = new OrbitalSimulator();
 
         frame.setLayout(new BorderLayout());
