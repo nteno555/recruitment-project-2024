@@ -15,17 +15,11 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
         planets = new ArrayList<>();
 
         planets.add(new Planet(400, 400, 50, 5e9, Color.BLUE));
-        planets.add(new Planet(600, 400, 10, 1e8, Color.RED));
+        // TODO: Calculate numbers so that the second planet orbits nicely :)
 
         planets.get(1).setVelocity(0, 0.9);
 
-        // Setup the radius slider
-        radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 50); // Min 10, Max 100, Initial 50
-        radiusSlider.addChangeListener(e -> {
-            int newRadius = radiusSlider.getValue();
-            planets.get(0).setRadius(newRadius);  // Adjust the radius of the blue planet
-            repaint();
-        });
+        // TODO: Setup the radius slider
 
         timer = new Timer(16, this);
         timer.start();
@@ -102,7 +96,7 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
 
         frame.setLayout(new BorderLayout());
         frame.add(simulator, BorderLayout.CENTER);
-        frame.add(simulator.radiusSlider, BorderLayout.SOUTH);  // Add the slider at the bottom
+        // TODO: Add slider to the bottom of screen
 
         frame.setSize(800, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
