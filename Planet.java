@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Planet {
     private double x, y;
-    private double radius;  // Changed from final to allow updates
+    private double radius;
     private final double mass;
     private double vx, vy;
     private final Color color;
@@ -14,7 +14,7 @@ public class Planet {
         this.mass = mass;
         this.color = color;
         this.vx = 0;
-        this.vy = 1.5; // Initial velocity for orbiting
+        this.vy = 0; // Initial velocity for orbiting
     }
 
     public double getX() {
@@ -29,6 +29,10 @@ public class Planet {
         return mass;
     }
 
+    public double getRadius() {
+        return radius;
+    }
+
     public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;
@@ -38,14 +42,39 @@ public class Planet {
         this.radius = radius;
     }
 
+    public void setVelocity(double vx, double vy) {
+        this.vx = vx;
+        this.vy = vy;
+    }
+
     public void updateVelocity(double ax, double ay) {
         vx += ax;
         vy += ay;
     }
 
+    public double getVx() {
+        return vx;
+    }
+
+    public double getVy() {
+        return vy;
+    }
+
     public void updatePosition() {
-        x += vx;
-        y += vy;
+        this.x += vx;
+        this.y += vy;
+        if (this.x < 10) {
+            this.x = 10;
+        }
+        if (this.x > 790) {
+            this.x = 790;
+        }
+        if (this.y < 10) {
+            this.y = 10;
+        }
+        if (this.y > 700) {
+            this.y = 700;
+        }
     }
 
     public void draw(Graphics g) {

@@ -71,25 +71,29 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
         if (planets.size() < 2) return;
 
         Planet p1 = planets.get(0);  // Central planet (Blue)
-        Planet p2 = planets.get(1);  // This is the planet you will add
-        // TODO: Add more planets here
+        Planet p2 = planets.get(1);  // Orbiting planet (Red)
 
-        double G = 6.67430e-11; // Gravitational constant
+        double G = 6.67430e-5; // Gravitational constant
 
-        // Calculate distance
-        double dx = p2.getX() - p1.getX();
-        double dy = p2.getY() - p1.getY();
-        double distance = Math.sqrt(dx * dx + dy * dy);
+        double dx = p1.getX() - p2.getX();
+        double dy = p1.getY() - p2.getY();
+        double distance = Math.sqrt(dx * dx + dy * dy); // Distance formula
 
-        // Calculate force
-        double force = G * (p1.getMass() * p2.getMass()) / (distance * distance);
+        double minDistance = p1.getRadius() + p2.getRadius(); // Minimum distance so they don't overlap
+        if (distance < minDistance) {
+            distance = minDistance;
+        }
 
-        // Calculate acceleration
-        double ax = force / p2.getMass() * (dx / distance);
-        double ay = force / p2.getMass() * (dy / distance);
+        double force = (G * p1.getMass() * p2.getMass()) / (distance * distance);
 
-        // Update velocity and position
-        p2.updateVelocity(ax, ay);
+        double directionX = dx / distance;
+        double directionY = dy / distance;
+
+        double ax = force / p2.getMass() * directionX;
+        double ay = force / p2.getMass() * directionY;
+
+        p2.setVelocity(p2.getVx() + ax, p2.getVy() + ay);
+
         p2.updatePosition();
     }
 
