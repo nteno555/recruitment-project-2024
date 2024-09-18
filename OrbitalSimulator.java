@@ -14,16 +14,15 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
     public OrbitalSimulator() {
         planets = new ArrayList<>();
 
-        planets.add(new Planet(400, 400, 50, 5e9, Color.BLUE));
-        planets.add(new Planet(600, 400, 10, 1e8, Color.RED));
+        planets.add(new Planet(400, 400, 50, 8e8, Color.BLUE));
+        planets.add(new Planet(600, 400, 10, 1e3, Color.RED));
 
         planets.get(1).setVelocity(0, 0.9);
 
-        // Setup the radius slider
-        radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 50); // Min 10, Max 100, Initial 50
+        radiusSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 50);
         radiusSlider.addChangeListener(e -> {
             int newRadius = radiusSlider.getValue();
-            planets.get(0).setRadius(newRadius);  // Adjust the radius of the blue planet
+            planets.get(0).setRadius(newRadius);
             repaint();
         });
 
@@ -73,26 +72,30 @@ public class OrbitalSimulator extends JPanel implements ActionListener {
     private void applyGravity() {
         if (planets.size() < 2) return;
 
-        Planet p1 = planets.get(0);
-        Planet p2 = planets.get(1);
+        Planet p1 = planets.get(0);  // Central planet (Blue)
+        Planet p2 = planets.get(1);  // Orbiting planet (Red)
 
         double G = 6.67430e-5; // Gravitational constant
 
-        double dx = p2.getX() - p1.getX();
-        double dy = p2.getY() - p1.getY();
-        double distance = Math.sqrt(dx * dx + dy * dy);
+        double dx = p1.getX() - p2.getX();
+        double dy = p1.getY() - p2.getY();
+        double distance = Math.sqrt(dx * dx + dy * dy); // Distance formula
 
-        double minDistance = p1.getRadius() + p2.getRadius();
+        double minDistance = p1.getRadius() + p2.getRadius(); // Minimum distance so they don't overlap
         if (distance < minDistance) {
             distance = minDistance;
         }
 
-        double force = G * (p1.getMass() * p2.getMass()) / (distance * distance);
+        double force = (G * p1.getMass() * p2.getMass()) / (distance * distance);
 
-        double ax = force / p2.getMass() * (dx / distance);
-        double ay = force / p2.getMass() * (dy / distance);
+        double directionX = dx / distance;
+        double directionY = dy / distance;
 
-        p2.updateVelocity(ax, ay);
+        double ax = force / p2.getMass() * directionX;
+        double ay = force / p2.getMass() * directionY;
+
+        p2.setVelocity(p2.getVx() + ax, p2.getVy() + ay);
+
         p2.updatePosition();
     }
 

@@ -52,9 +52,29 @@ public class Planet {
         vy += ay;
     }
 
+    public double getVx() {
+        return vx;
+    }
+
+    public double getVy() {
+        return vy;
+    }
+
     public void updatePosition() {
-        x += vx;
-        y += vy;
+        this.x += vx;
+        this.y += vy;
+        if (this.x < 10) {
+            this.x = 10;
+        }
+        if (this.x > 790) {
+            this.x = 790;
+        }
+        if (this.y < 10) {
+            this.y = 10;
+        }
+        if (this.y > 700) {
+            this.y = 700;
+        }
     }
 
     public void draw(Graphics g) {
